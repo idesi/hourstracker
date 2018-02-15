@@ -10,7 +10,6 @@ class EnterHours extends React.Component {
     super(props);
 
     this.onSaveClick = this.onSaveClick.bind(this);
-
     this.state = this.getDefaultState();
   }
 
@@ -18,8 +17,7 @@ class EnterHours extends React.Component {
     return {
       error: null,
       startDateTime: moment(),
-      endDateTime: moment(),
-      enteringData: false
+      endDateTime: moment()
     };
   }
 
@@ -36,7 +34,11 @@ class EnterHours extends React.Component {
         endDateTime: this.state.endDateTime.toString(),
         minutes
       });
+
       this.setState(this.getDefaultState());
+      if (this.props.callback) {
+        this.props.callback();
+      }
     } catch (err) {
       this.setState({ error: `Error: ${err.message}` });
     }
@@ -51,30 +53,26 @@ class EnterHours extends React.Component {
   };
 
   render() {
-    if (this.state.enteringData) {
-      return (
-        <div>
-          <form>
-            <div className="input">
-              You worked from {this.state.startDateTime.format('llll')} to {this.state.endDateTime.format('llll')}
-            </div>
-            <InputMoment
-              moment={this.state.startDateTime}
-              onChange={this.handleStartDateChange}
-              minStep={5}
-              hourStep={1}
-            />
-            <InputMoment moment={this.state.endDateTime} onChange={this.handleEndDateChange} minStep={5} hourStep={1} />
-          </form>
-          <button onClick={this.onSaveClick}>Save</button>
-          <div className="error">
-            {this.state.error}
+    return (
+      <div>
+        <form>
+          <div className="input">
+            You worked from {this.state.startDateTime.format('llll')} to {this.state.endDateTime.format('llll')}
           </div>
+          <InputMoment
+            moment={this.state.startDateTime}
+            onChange={this.handleStartDateChange}
+            minStep={5}
+            hourStep={1}
+          />
+          <InputMoment moment={this.state.endDateTime} onChange={this.handleEndDateChange} minStep={5} hourStep={1} />
+        </form>
+        <button onClick={this.onSaveClick}>Save</button>
+        <div className="error">
+          {this.state.error}
         </div>
-      );
-    } else {
-      return <button onClick={() => this.setState({ enteringData: true })}>Enter time</button>;
-    }
+      </div>
+    );
   }
 }
 
