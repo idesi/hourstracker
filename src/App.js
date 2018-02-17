@@ -30,9 +30,11 @@ class App extends Component {
       return (
         <div className="App">
           <header className="App-header">
-            <h1 className="App-title">Time Streak</h1>
-            <div className="App-intro">
-              <h3>An easy solution for individuals to log their daily working hours.</h3>
+            <div className="App-header-inner">
+              <h1 className="App-title">Time Streak</h1>
+              <div className="App-intro">
+                <h3>An easy solution for individuals to log their daily working hours.</h3>
+              </div>
             </div>
           </header>
           <div className="App-body">
