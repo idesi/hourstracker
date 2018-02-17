@@ -10,7 +10,7 @@ export const auth = firebase.auth();
 export const storage = firebase.storage();
 export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
-const ref = db.ref('server/wagetracker');
+const ref = db.ref('server/timestreak');
 const timeEntryRef = ref.child('timeEntry');
 
 const push = ref => data => ref.push(data);
