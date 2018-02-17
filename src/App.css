@@ -27,11 +27,16 @@ Yellow: #F7B733;
   background-color: rgba(74, 189, 172, 0.8);
 }
 
-.App-title {
-  font-size: 3.5em;
+.heading {
   font-family: 'Raleway', sans-serif;
   color: #f7b733;
   text-decoration: underline;
+  font-size: 1.5em;
+  margin: 10px 0;
+}
+
+.App-title {
+  font-size: 3.5em;
 }
 
 .App-intro {
@@ -43,14 +48,6 @@ Yellow: #F7B733;
   padding-bottom: 20px;
 }
 
-.feature h3 {
-  font-size: 1.5em;
-  font-family: 'Raleway', sans-serif;
-  color: #f7b733;
-  text-decoration: underline;
-  margin: 10px 0;
-}
-
 button {
   background-color: #fc4a1a;
   width: 175px;
@@ -60,6 +57,7 @@ button {
   color: white;
   font-weight: 400;
   font-size: 14px;
+  margin-bottom: 25px;
 }
 
 button:hover {
@@ -72,6 +70,7 @@ button:hover {
 
 .text-large {
   font-size: 24px;
+  margin-bottom: 10px;
 }
 
 @keyframes App-logo-spin {
