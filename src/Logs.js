@@ -60,7 +60,7 @@ class Logs extends React.Component {
       <div>
         <div className="heading">Timesheet</div>
         {logs}
-        <div>
+        <div className="text-medium">
           {this.getTotalMinutesLogged(this.state.totalMinutes)}
         </div>
       </div>
