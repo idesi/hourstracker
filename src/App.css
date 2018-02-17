@@ -55,6 +55,10 @@ button {
   margin-bottom: 25px;
 }
 
+button.button-secondary {
+  background-color: #f7b733;
+}
+
 button.button-cancel {
   background-color: #dfdce3;
 }

@@ -10,6 +10,7 @@ class EnterHours extends React.Component {
     super(props);
 
     this.onSaveClick = this.onSaveClick.bind(this);
+    this.onReEnterClick = this.onReEnterClick.bind(this);
     this.onCancelClick = this.onCancelClick.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleDateSave = this.handleDateSave.bind(this);
@@ -49,8 +50,14 @@ class EnterHours extends React.Component {
     }
   }
 
-  onCancelClick() {
+  onReEnterClick() {
     this.setState(this.getDefaultState());
+  }
+
+  onCancelClick() {
+    if (this.props.callback) {
+      this.props.callback();
+    }
   }
 
   handleDateChange = datetime => {
@@ -94,8 +101,11 @@ class EnterHours extends React.Component {
                 <span className="emphasize-foreground-orange">{this.state.endDateTime.format('llll')}</span>
               </div>
               <button onClick={this.onSaveClick}>Yes, save it</button>
-              <button className="button-cancel" onClick={this.onCancelClick}>
+              <button className="button-secondary" onClick={this.onReEnterClick}>
                 No, re-enter
+              </button>
+              <button className="button-cancel" onClick={this.onCancelClick}>
+                Cancel
               </button>
             </div>}
 
