@@ -26,4 +26,13 @@ const timeEntryPush = async data => {
   return push(timeEntryRef)(data);
 };
 
-export { timeEntryPush };
+const fetchLogs = async (starteDateTime, endDatetime, callback) => {
+  const currentUser = auth.currentUser;
+  if (!currentUser) {
+    return;
+  }
+
+  return timeEntryRef.orderByChild('userID').equalTo(currentUser.uid).once('value', callback);
+};
+
+export { timeEntryPush, fetchLogs };

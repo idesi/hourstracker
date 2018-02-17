@@ -8,8 +8,8 @@ const UserProfile = () => {
     return <div>User not found</div>;
   } else
     return (
-      <div>
-        Hello, {currentUser.displayName}
+      <div className="text-large">
+        Hello, <span className="emphasize-foreground">{currentUser.displayName}</span>
       </div>
     );
 };

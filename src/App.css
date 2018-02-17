@@ -1,5 +1,20 @@
+/* Color Scheme
+Background : #4ABDAC;
+Buttons : #F7B733;
+Text : #dfdce3;
+Orange: #fc4a1a;
+ */
+
+#root {
+  background: url(/bg.jpg) no-repeat center center fixed;
+}
+
 .App {
   text-align: center;
+  /* background-color: #4abdac; */
+  background-color: rgba(74, 189, 172, 0.8);
+  min-height: 100vh;
+  color: #dfdce3;
 }
 
 .App-logo {
@@ -8,7 +23,6 @@
 }
 
 .App-header {
-  background-color: #222;
   height: 150px;
   padding: 20px;
   color: white;
@@ -22,7 +36,34 @@
   font-size: large;
 }
 
+button {
+  background-color: #fc4a1a;
+  width: 175px;
+  height: 50px;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.emphasize-foreground {
+  color: #f7b732;
+}
+
+.text-large {
+  font-size: 24px;
+}
+
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
