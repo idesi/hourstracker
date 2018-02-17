@@ -55,15 +55,37 @@ button {
   margin-bottom: 25px;
 }
 
+button.button-cancel {
+  background-color: #dfdce3;
+}
+
 button:hover {
   cursor: pointer;
 }
 
-.emphasize-foreground {
+.App-entry-confirmation button + button {
+  margin-left: 20px;
+}
+
+.emphasize-foreground-yellow {
   color: #f7b732;
+}
+
+.emphasize-foreground-orange {
+  color: #fc4a1a;
 }
 
 .text-large {
   font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.text-medium {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.text-small {
+  font-size: 16px;
   margin-bottom: 10px;
 }

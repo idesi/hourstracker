@@ -1,8 +1,8 @@
 import React from 'react';
-import InputMoment from 'input-moment';
+import InputMoment from './InputMoment';
 import moment from 'moment';
 import { timeEntryPush } from './firebase';
-import './EnterHours.less';
+import './EnterHours.css';
 import '../node_modules/input-moment/dist/input-moment.css';
 
 class EnterHours extends React.Component {
@@ -10,6 +10,10 @@ class EnterHours extends React.Component {
     super(props);
 
     this.onSaveClick = this.onSaveClick.bind(this);
+    this.onCancelClick = this.onCancelClick.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleDateSave = this.handleDateSave.bind(this);
+
     this.state = this.getDefaultState();
   }
 
@@ -17,7 +21,8 @@ class EnterHours extends React.Component {
     return {
       error: null,
       startDateTime: moment(),
-      endDateTime: moment()
+      endDateTime: moment(),
+      currentlyEditing: 'startDateTime'
     };
   }
 
@@ -44,30 +49,56 @@ class EnterHours extends React.Component {
     }
   }
 
-  handleStartDateChange = startDateTime => {
-    this.setState({ startDateTime });
+  onCancelClick() {
+    this.setState(this.getDefaultState());
+  }
+
+  handleDateChange = datetime => {
+    if (!this.state.currentlyEditing) {
+      return;
+    }
+
+    this.setState({ [this.state.currentlyEditing]: datetime });
   };
 
-  handleEndDateChange = endDateTime => {
-    this.setState({ endDateTime });
+  handleDateSave = () => {
+    const newState = this.state.currentlyEditing === 'startDateTime' ? 'endDateTime' : null;
+    this.setState({ currentlyEditing: newState });
   };
-
   render() {
     return (
       <div>
-        <form>
-          <div className="input">
-            You worked from {this.state.startDateTime.format('llll')} to {this.state.endDateTime.format('llll')}
-          </div>
-          <InputMoment
-            moment={this.state.startDateTime}
-            onChange={this.handleStartDateChange}
-            minStep={5}
-            hourStep={1}
-          />
-          <InputMoment moment={this.state.endDateTime} onChange={this.handleEndDateChange} minStep={5} hourStep={1} />
-        </form>
-        <button onClick={this.onSaveClick}>Save</button>
+        {this.state.currentlyEditing
+          ? <div>
+              <div className="text-medium">
+                When did you
+                <span className="emphasize-foreground-orange">
+                  {this.state.currentlyEditing === 'startDateTime' ? ' start work' : ' end work'}?
+                </span>
+              </div>
+              <form>
+                <InputMoment
+                  moment={this.state[this.state.currentlyEditing]}
+                  onChange={this.handleDateChange}
+                  minStep={5}
+                  hourStep={1}
+                  onSave={this.handleDateSave}
+                />
+              </form>
+            </div>
+          : <div className="App-entry-confirmation">
+              <div className="text-small">
+                Please verify this information is correct. <br />
+                You worked from{' '}
+                <span className="emphasize-foreground-orange">{this.state.startDateTime.format('llll')}</span> to{' '}
+                <span className="emphasize-foreground-orange">{this.state.endDateTime.format('llll')}</span>
+              </div>
+              <button onClick={this.onSaveClick}>Yes, save it</button>
+              <button className="button-cancel" onClick={this.onCancelClick}>
+                No, re-enter
+              </button>
+            </div>}
+
         <div className="error">
           {this.state.error}
         </div>

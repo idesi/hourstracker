@@ -9,7 +9,7 @@ const UserProfile = () => {
   } else
     return (
       <div className="text-large">
-        Hello, <span className="emphasize-foreground">{currentUser.displayName}</span>
+        Hello, <span className="emphasize-foreground-yellow">{currentUser.displayName}</span>
       </div>
     );
 };
