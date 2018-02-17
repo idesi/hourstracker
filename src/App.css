@@ -1,8 +1,8 @@
 /* Color Scheme
 Background : #4ABDAC;
-Buttons : #F7B733;
+Buttons : #fc4a1a;
 Text : #dfdce3;
-Orange: #fc4a1a;
+Yellow: #F7B733;
  */
 
 #root {
@@ -11,10 +11,10 @@ Orange: #fc4a1a;
 
 .App {
   text-align: center;
-  /* background-color: #4abdac; */
   background-color: rgba(74, 189, 172, 0.8);
   min-height: 100vh;
-  color: #dfdce3;
+  color: white;
+  font-family: 'Roboto', sans-serif;
 }
 
 .App-logo {
@@ -26,14 +26,31 @@ Orange: #fc4a1a;
   height: 150px;
   padding: 20px;
   color: white;
+  margin-bottom: 25px;
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: 3.5em;
+  font-family: 'Raleway', sans-serif;
+  color: #f7b733;
+  text-decoration: underline;
 }
 
 .App-intro {
-  font-size: large;
+  font-size: 17px;
+  line-height: 1.7em;
+}
+
+.App-body > div {
+  padding-bottom: 20px;
+}
+
+.feature h3 {
+  font-size: 1.5em;
+  font-family: 'Raleway', sans-serif;
+  color: #f7b733;
+  text-decoration: underline;
+  margin: 10px 0;
 }
 
 button {
@@ -43,7 +60,7 @@ button {
   border-radius: 5px;
   border: none;
   color: white;
-  font-weight: 900;
+  font-weight: 400;
   font-size: 14px;
 }
 
