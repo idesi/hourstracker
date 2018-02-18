@@ -25,7 +25,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('re-rendering');
     const isLoggedIn = this.state.user;
     return (
       <div className="App">

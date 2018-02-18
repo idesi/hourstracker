@@ -28,7 +28,7 @@ class Logs extends React.Component {
       totalMinutes += val.minutes;
 
       logs.push({
-        key: data.key,
+        id: data.key,
         startDateTime: moment(val.startDateTime).format('dddd, MMMM Do YYYY, h:mm a'),
         endDateTime: moment(val.endDateTime).format('dddd, MMMM Do YYYY, h:mm a'),
         minutes: val.minutes
@@ -52,7 +52,7 @@ class Logs extends React.Component {
       );
     }
 
-    const logs = this.state.logs.map(log => <LogItem key={log.key} {...log} />);
+    const logs = this.state.logs.map(log => <LogItem key={log.id} {...log} />);
 
     return (
       <div>
