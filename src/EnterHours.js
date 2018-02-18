@@ -31,7 +31,7 @@ class EnterHours extends React.Component {
     try {
       const minutes = this.state.endDateTime.diff(this.state.startDateTime, 'minutes');
       if (minutes <= 0) {
-        throw new Error('End date time must be greater than start date time');
+        throw new Error('End date time must be greater than start date time.');
       }
 
       this.setState({ error: null });
