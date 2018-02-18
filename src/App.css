@@ -1,7 +1,7 @@
 /* Color Scheme
 Background : #4ABDAC;
 Buttons : #fc4a1a;
-Text : #dfdce3;
+Gray : #dfdce3;
 Yellow: #F7B733;
  */
 
@@ -43,6 +43,22 @@ Yellow: #F7B733;
   padding-bottom: 20px;
 }
 
+.log-items {
+  margin-bottom: 15px;
+}
+
+.log-item {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 15px;
+  border-bottom: 1px solid #dfdce3;
+  text-align: left;
+}
+
+.log-item:first-of-type {
+  border-top: 1px solid #dfdce3;
+}
+
 button {
   background-color: #fc4a1a;
   width: 175px;
@@ -53,6 +69,18 @@ button {
   font-weight: 400;
   font-size: 14px;
   margin-bottom: 25px;
+}
+
+/* Regular elements given a style similar to the primary button style */
+.button-primary {
+  background-color: #fc4a1a;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  font-weight: 400;
+  font-size: 14px;
+  padding: 5px 10px;
+  margin-right: 10px;
 }
 
 button.button-secondary {
@@ -92,4 +120,8 @@ button:hover {
 .text-small {
   font-size: 16px;
   margin-bottom: 10px;
+}
+
+.text-gray {
+  color: #dfdce3;
 }

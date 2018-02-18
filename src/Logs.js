@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import { fetchLogs } from './firebase';
+import LogItem from './LogItem';
+import utils from './utils';
 
 class Logs extends React.Component {
   constructor(props) {
@@ -11,22 +13,10 @@ class Logs extends React.Component {
     };
 
     this.processLogs = this.processLogs.bind(this);
-    this.getTotalMinutesLogged = this.getTotalMinutesLogged.bind(this);
   }
 
   componentDidMount() {
     fetchLogs(null, null, this.processLogs);
-  }
-
-  getTotalMinutesLogged(m) {
-    if (!m) {
-      return '';
-    }
-
-    const hours = Math.floor(m / 60, 0);
-    const minutes = m % 60;
-
-    return `Total time worked ${hours}h ${minutes}m`;
   }
 
   processLogs(snapshot) {
@@ -39,29 +29,39 @@ class Logs extends React.Component {
 
       logs.push({
         key: data.key,
-        startDateTime: moment(val.startDateTime).format('dddd, MMMM Do YYYY, h:mm'),
-        endDateTime: moment(val.endDateTime).format('dddd, MMMM Do YYYY, h:mm')
+        startDateTime: moment(val.startDateTime).format('dddd, MMMM Do YYYY, h:mm a'),
+        endDateTime: moment(val.endDateTime).format('dddd, MMMM Do YYYY, h:mm a'),
+        minutes: val.minutes
       });
     });
 
     this.setState({ logs, totalMinutes });
   }
 
+  renderTotalMinutes() {
+    const { hours, minutes } = utils.minutesToHoursAndMinutes(this.state.totalMinutes);
+    return `Total time worked: ${hours}hrs ${minutes ? minutes + 'minutes' : ''}`;
+  }
+
   render() {
-    const logs = this.state.logs.map(log =>
-      <div key={log.key}>
-        <div>
-          You worked from {log.startDateTime} to {log.endDateTime}
+    if (this.state.logs.length === 0) {
+      return (
+        <div className="text-large text-gray">
+          No timesheet entry found. <br />Click the "Enter time" button to start logging your hours.
         </div>
-      </div>
-    );
+      );
+    }
+
+    const logs = this.state.logs.map(log => <LogItem key={log.key} {...log} />);
 
     return (
       <div>
         <div className="heading">Timesheet</div>
-        {logs}
+        <div className="log-items">
+          {logs}
+        </div>
         <div className="text-medium">
-          {this.getTotalMinutesLogged(this.state.totalMinutes)}
+          Total time worked: {utils.formattedDateTime(this.state.totalMinutes)}
         </div>
       </div>
     );
