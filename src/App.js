@@ -30,7 +30,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <div className="App-header-inner">
-            <h1 className="App-title heading">Time Streak</h1>
+            <h1 className="App-title heading">Log Streak</h1>
             <div className="App-intro">
               <h3>An easy solution for individuals to log their daily working hours.</h3>
             </div>
@@ -45,7 +45,7 @@ class App extends Component {
                   <div className="feature">
                     <div className="heading">On-the-go time tracking</div>
                     <div className="feature-description">
-                      Time Streak works seemlessly across all your devices allowing you to easily track your time
+                      Log Streak works seemlessly across all your devices allowing you to easily track your time
                       anywhere, anytime.
                     </div>
                   </div>
