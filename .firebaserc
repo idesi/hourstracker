@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "wagetracker-b2fcd"
+    "default": "wagetracker-b2fcd",
+    "production": "timestreak-prod"
   }
 }
