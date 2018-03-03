@@ -69,8 +69,19 @@ class EnterHours extends React.Component {
   };
 
   handleDateSave = () => {
-    const newState = this.state.currentlyEditing === 'startDateTime' ? 'endDateTime' : null;
-    this.setState({ currentlyEditing: newState });
+    const wasEditingStartDateTime = this.state.currentlyEditing === 'startDateTime';
+    const newState = {};
+
+    //If the user just finished entering the start date time then transition to
+    //end date time editing & set end date to be the same as start date
+    if (wasEditingStartDateTime) {
+      newState.currentlyEditing = 'endDateTime';
+      newState.endDateTime = new moment(this.state.startDateTime);
+    } else {
+      newState.currentlyEditing = null;
+    }
+
+    this.setState(newState);
   };
   render() {
     return (
