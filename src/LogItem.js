@@ -5,8 +5,8 @@ class LogItem extends React.Component {
   render() {
     return (
       <div className="log-item">
-        <span className="button-primary">{utils.formattedDateTime(this.props.minutes)}</span>
-        {this.props.startDateTime} - {this.props.endDateTime}
+        <div className="button-primary">{utils.formattedDateTime(this.props.minutes)}</div>
+        <div>{this.props.startDateTime}</div>&nbsp;-&nbsp;<div>{this.props.endDateTime}</div>
       </div>
     );
   }

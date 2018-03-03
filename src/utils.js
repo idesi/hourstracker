@@ -16,6 +16,6 @@ export default {
     }
 
     const { hours, minutes } = this.minutesToHoursAndMinutes(m);
-    return `${hours}hrs${minutes ? ' ' + minutes + 'minutes' : ''}`;
+    return `${hours ? hours + 'hrs' : ''}${minutes ? ' ' + minutes + 'min' : ''}`;
   }
 };
