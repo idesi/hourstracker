@@ -4,6 +4,8 @@ import { fetchLogs } from './firebase';
 import LogItem from './LogItem';
 import utils from './utils';
 
+const dateTimeFormat = 'dddd, MMMM Do YYYY, h:mm a';
+
 class Logs extends React.Component {
   constructor(props) {
     super(props);
@@ -29,8 +31,8 @@ class Logs extends React.Component {
 
       logs.push({
         id: data.key,
-        startDateTime: moment(val.startDateTime).format('dddd, MMMM Do YYYY, h:mm a'),
-        endDateTime: moment(val.endDateTime).format('dddd, MMMM Do YYYY, h:mm a'),
+        startDateTime: moment(val.startDateTime).format(dateTimeFormat),
+        endDateTime: moment(val.endDateTime).format(dateTimeFormat),
         minutes: val.minutes
       });
     });
@@ -52,7 +54,11 @@ class Logs extends React.Component {
       );
     }
 
-    const logs = this.state.logs.map(log => <LogItem key={log.id} {...log} />);
+    const logs = this.state.logs.sort((a, b) => {
+      const aStartDateTime = moment(a.startDateTime, dateTimeFormat);
+      const bStartDateTime = moment(b.startDateTime, dateTimeFormat);
+      return bStartDateTime.isAfter(aStartDateTime);
+    }).map(log => <LogItem key={log.id} {...log} />);
 
     return (
       <div>
