@@ -3,6 +3,7 @@ import moment from 'moment';
 import { fetchLogs } from './firebase';
 import LogItem from './LogItem';
 import utils from './utils';
+import Filter from './Filter';
 
 const dateTimeFormat = 'dddd, MMMM Do YYYY, h:mm a';
 
@@ -11,7 +12,9 @@ class Logs extends React.Component {
     super(props);
     this.state = {
       logs: [],
-      totalMinutes: 0
+      totalMinutes: 0,
+      startDate : null,
+      endDate : null,
     };
 
     this.processLogs = this.processLogs.bind(this);
@@ -63,6 +66,7 @@ class Logs extends React.Component {
     return (
       <div>
         <div className="heading">Timesheet</div>
+        { <Filter /> }
         <div className="log-items">
           {logs}
         </div>
