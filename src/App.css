@@ -70,6 +70,7 @@ button {
   font-weight: 400;
   font-size: 14px;
   margin-bottom: 25px;
+  margin-top: 15px;
 }
 
 /* Regular elements given a style similar to the primary button style */
@@ -125,4 +126,59 @@ button:hover {
 
 .text-gray {
   color: #dfdce3;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.logFilters {
+  border-bottom: 1px solid #dfdce3;
+  background: #f7b733;
+  border-radius: 0px;
+  padding: 20px;
+  display: flex;
+  color: white;
+  justify-content: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+.logFilters .heading {
+  color : white;
+}
+
+.logFilters .date-pickers {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px
+}
+
+.logFilters .date-pickers > div {
+  margin-right: 20px;
+}
+
+.logFilters .date-pickers > button {
+  height: 30px
+}
+
+.logFilters .date-pickers > div > label {
+  margin-right: 10px;
+}
+
+.fltStartDate,
+.fltEndDate {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  border: none;
+  border-radius: 2px;
+  padding-left: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.hide {
+  display: none;
 }
