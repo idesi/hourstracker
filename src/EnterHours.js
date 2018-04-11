@@ -62,6 +62,7 @@ class EnterHours extends React.Component {
 
   async onSaveClick() {
     try {
+      //Validate that the user entered correct data
       const minutes = this.state.endDateTime.diff(this.state.startDateTime, 'minutes');
       if (minutes <= 0) {
         throw new Error('End date time must be greater than start date time.');
@@ -69,14 +70,17 @@ class EnterHours extends React.Component {
 
       this.setState({ error: null });
 
+      //Fire the onSaveClick hook so that the parent can take this time entry & do the necessary action
       await this.props.onSaveClick({
         startDateTime : this.state.startDateTime,
         endDateTime   : this.state.endDateTime,
         minutes       : minutes,
       });
 
+      //Reset state if save worked
       this.setState(this.getDefaultState());
 
+      // Fire the onSaveCallback hook so that the the parent can reset state
       if (this.props.onSaveCallback) {
         this.props.onSaveCallback();
       }

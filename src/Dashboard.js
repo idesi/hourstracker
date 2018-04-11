@@ -22,6 +22,7 @@ class Dashboard extends React.Component {
   }
 
   startEnteringData(options){
+    // When enter hour controls are displayed by default we'll assume they're adding a log entry
     options = options || {
       creatingNewEntry : true,
       creatingFilterEntry : false
@@ -38,7 +39,6 @@ class Dashboard extends React.Component {
     };
 
     options.enteringData = false;
-
     this.setState(options);
   }
 
