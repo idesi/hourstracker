@@ -13,8 +13,6 @@ class Logs extends React.Component {
     this.state = {
       logs: [],
       totalMinutes: 0,
-      startDate : null,
-      endDate : null,
     };
 
     this.processLogs = this.processLogs.bind(this);
@@ -24,20 +22,42 @@ class Logs extends React.Component {
     fetchLogs(null, null, this.processLogs);
   }
 
+  componentWillReceiveProps(nextProps) {
+    //If filter props have changed, then reprocess the logs so that we show the appropriate logs on screen
+    if (this.props.filterStartDateTime !== nextProps.filterStartDateTime || this.props.filterEndDateTime !== nextProps.filterEndDateTime) {
+        fetchLogs(null, null, this.processLogs);
+    }
+  }
+
   processLogs(snapshot) {
     const logs = [];
     let totalMinutes = 0;
+    const filterStartDateTime = this.props.filterStartDateTime;
+    const filterEndDateTime = this.props.filterEndDateTime;
+
     snapshot.forEach(function(data) {
       const val = data.val();
+      const startDateTimeMoment = moment(val.startDateTime);
+      const endDateTimeMoment = moment(val.endDateTime);
 
-      totalMinutes += val.minutes;
+      let includeLog = true;
+      //Ensure that this log entry meets the filter criteria
+      if (filterStartDateTime && filterEndDateTime) {
+        includeLog =
+          startDateTimeMoment.isSameOrAfter(filterStartDateTime)
+          && endDateTimeMoment.isSameOrBefore(filterEndDateTime);
+      }
 
-      logs.push({
-        id: data.key,
-        startDateTime: moment(val.startDateTime).format(dateTimeFormat),
-        endDateTime: moment(val.endDateTime).format(dateTimeFormat),
-        minutes: val.minutes
-      });
+      if (includeLog) {
+        totalMinutes += val.minutes;
+
+        logs.push({
+          id: data.key,
+          startDateTime: startDateTimeMoment.format(dateTimeFormat),
+          endDateTime: endDateTimeMoment.format(dateTimeFormat),
+          minutes: val.minutes
+        });
+      }
     });
 
     this.setState({ logs, totalMinutes });
@@ -49,14 +69,7 @@ class Logs extends React.Component {
   }
 
   render() {
-    if (this.state.logs.length === 0) {
-      return (
-        <div className="text-large text-gray">
-          No timesheet entry found. <br />Click the "Enter time" button to start logging your hours.
-        </div>
-      );
-    }
-
+    // Show the newest logs first
     const logs = this.state.logs.sort((a, b) => {
       const aStartDateTime = moment(a.startDateTime, dateTimeFormat);
       const bStartDateTime = moment(b.startDateTime, dateTimeFormat);
@@ -66,13 +79,28 @@ class Logs extends React.Component {
     return (
       <div>
         <div className="heading">Timesheet</div>
-        { <Filter /> }
-        <div className="log-items">
-          {logs}
-        </div>
-        <div className="text-medium">
-          Total time worked: {utils.formattedDateTime(this.state.totalMinutes)}
-        </div>
+        { <Filter
+          startEnteringData={this.props.startEnteringData}
+          stopEnteringData={this.props.stopEnteringData}
+          filterStartDateTime={this.props.filterStartDateTime ? this.props.filterStartDateTime.format(dateTimeFormat) : null}
+          filterEndDateTime={this.props.filterEndDateTime ? this.props.filterEndDateTime.format(dateTimeFormat) : null}
+          clearFilter={this.props.clearFilter}
+        /> }
+        { this.state.logs.length === 0
+          ?
+            <div className="text-large text-gray">
+              No timesheet entry found. <br />Click the "Enter time" button to start logging your hours.
+            </div>
+          :
+          <div>
+            <div className="log-items">
+              {logs}
+            </div>
+            <div className="text-medium">
+              Total time worked: {utils.formattedDateTime(this.state.totalMinutes)}
+            </div>
+          </div>
+        }
       </div>
     );
   }

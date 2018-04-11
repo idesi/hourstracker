@@ -5,22 +5,32 @@ export default class Filter extends React.Component {
     super(props);
 
     this.state = {
-      starteDate : null,
-      endDate    : null,
       isFilterSaved : false,
-      showErrorMessage : false,
+      enteringData : false,
     }
 
-    this.onApplyFilterClick = this.onApplyFilterClick.bind(this);
+    this.startEnteringData = this.startEnteringData.bind(this);
+    this.stopEnteringData = this.stopEnteringData.bind(this);
+  }
+
+  startEnteringData(){
+    this.setState({ enteringData : true });
+    this.props.startEnteringData({
+      creatingNewEntry : false,
+      creatingFilterEntry : true
+    }); //Notify the parent
+  }
+
+  stopEnteringData(){
+    this.setState({ enteringData : false });
+    this.props.stopEnteringData({
+      creatingNewEntry : false,
+      creatingFilterEntry : false
+    }); //Notify the parent
   }
 
   get isFilterApplied() {
-    return this.state.startDate && this.state.endDate;
-  }
-
-  onApplyFilterClick(){
-    const showErrorMessage = !this.isFilterApplied
-    this.setState({ showErrorMessage });
+    return this.props.filterStartDateTime && this.props.filterEndDateTime;
   }
 
   render() {
@@ -28,26 +38,17 @@ export default class Filter extends React.Component {
       <div className="logFilters">
         <div className="heading">FILTERS</div>
         {
-          this.state.isFilterSaved ?
-          'Filter has been applied' :
-          <div>
-            <div className="italic">No filter applied</div>
-            <div className="date-pickers">
-              <div>
-                <label>Start Date</label>
-                <input type="date" className="fltStartDate" onChange={console.log('test')}/>
-              </div>
-              <div>
-                <label>End Date</label>
-                <input type="date" className="fltEndDate"/>
-              </div>
-              <button onClick={this.onApplyFilterClick}>Apply</button>
+          this.isFilterApplied
+          ? <div>
+              <div>Filtering data from {this.props.filterStartDateTime} to {this.props.filterEndDateTime}</div>
+              <button onClick={this.props.clearFilter}>Clear Filter</button>
             </div>
-            <div className={ `errorMessage ${this.state.showErrorMessage ? '' : 'hide' }` }>
-              Please enter a start and end date.
+          : <div>
+              <div>No filter applied currently.</div>
+              <button onClick={this.startEnteringData}>Add filter</button>
             </div>
-          </div>
         }
+
       </div>
     )
   }

@@ -1,7 +1,6 @@
 import React from 'react';
 import InputMoment from './InputMoment';
 import moment from 'moment';
-import { timeEntryPush } from './firebase';
 import './EnterHours.css';
 import '../node_modules/input-moment/dist/input-moment.css';
 
@@ -27,36 +26,13 @@ class EnterHours extends React.Component {
     };
   }
 
-  async onSaveClick() {
-    try {
-      const minutes = this.state.endDateTime.diff(this.state.startDateTime, 'minutes');
-      if (minutes <= 0) {
-        throw new Error('End date time must be greater than start date time.');
-      }
-
-      this.setState({ error: null });
-      await timeEntryPush({
-        startDateTime: this.state.startDateTime.toString(),
-        endDateTime: this.state.endDateTime.toString(),
-        minutes
-      });
-
-      this.setState(this.getDefaultState());
-      if (this.props.callback) {
-        this.props.callback();
-      }
-    } catch (err) {
-      this.setState({ error: `Error: ${err.message}` });
-    }
-  }
-
   onReEnterClick() {
     this.setState(this.getDefaultState());
   }
 
   onCancelClick() {
-    if (this.props.callback) {
-      this.props.callback();
+    if (this.props.onSaveCallback) {
+      this.props.onSaveCallback();
     }
   }
 
@@ -83,17 +59,51 @@ class EnterHours extends React.Component {
 
     this.setState(newState);
   };
+
+  async onSaveClick() {
+    try {
+      const minutes = this.state.endDateTime.diff(this.state.startDateTime, 'minutes');
+      if (minutes <= 0) {
+        throw new Error('End date time must be greater than start date time.');
+      }
+
+      this.setState({ error: null });
+
+      await this.props.onSaveClick({
+        startDateTime : this.state.startDateTime,
+        endDateTime   : this.state.endDateTime,
+        minutes       : minutes,
+      });
+
+      this.setState(this.getDefaultState());
+
+      if (this.props.onSaveCallback) {
+        this.props.onSaveCallback();
+      }
+    } catch (err) {
+      this.setState({ error: `Error: ${err.message}` });
+    }
+  }
+
   render() {
     return (
       <div>
         {this.state.currentlyEditing
           ? <div>
+              {this.props.creatingFilterEntry
+              ?
               <div className="text-medium">
+                Filter logs
+                <span className="emphasize-foreground-orange">
+                  {this.state.currentlyEditing === 'startDateTime' ? ' starting from' : ' ending on'}?
+                </span>
+              </div>
+              :<div className="text-medium">
                 When did you
                 <span className="emphasize-foreground-orange">
                   {this.state.currentlyEditing === 'startDateTime' ? ' start work' : ' end work'}?
                 </span>
-              </div>
+              </div>}
               <form>
                 <InputMoment
                   moment={this.state[this.state.currentlyEditing]}
@@ -107,11 +117,11 @@ class EnterHours extends React.Component {
           : <div className="App-entry-confirmation">
               <div className="text-small">
                 Please verify this information is correct. <br />
-                You worked from{' '}
+                { this.props.creatingFilterEntry ? 'Filter logs from ' : 'You worked from ' }
                 <span className="emphasize-foreground-orange">{this.state.startDateTime.format('llll')}</span> to{' '}
                 <span className="emphasize-foreground-orange">{this.state.endDateTime.format('llll')}</span>
               </div>
-              <button onClick={this.onSaveClick}>Yes, save it</button>
+              <button onClick={() => this.onSaveClick()}>Yes, save it</button>
               <button className="button-secondary" onClick={this.onReEnterClick}>
                 No, re-enter
               </button>
@@ -119,7 +129,6 @@ class EnterHours extends React.Component {
                 Cancel
               </button>
             </div>}
-
         <div className="error">
           {this.state.error}
         </div>
